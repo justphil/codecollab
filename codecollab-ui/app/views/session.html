@@ -1,0 +1,40 @@
+<div id="main-content">
+    <div id="left">
+        <ace editor-id="sessionEditor"
+             theme="{{aceTheme}}"
+             mode="{{aceMode}}"
+             init-code="aceInitCode"
+             on-change="onAceEditorChange(action, text, lines, startRow, startColumn, endRow, endColumn)">
+        </ace>
+    </div>
+    <div id="right">
+        <div id="right-content">
+            <!--
+                Only show if user is presenter
+            -->
+            <div class="start-form-overlay" ng-hide="showJoinForm">
+                <h1>Have fun with CodeCollab!</h1>
+            </div>
+
+            <!--
+                Only show if user is non-presenter
+            -->
+            <div class="start-form-overlay" ng-show="showJoinForm">
+                <h1>Join a collaboration session!</h1>
+
+                <form name="joinCodeCollabForm" novalidate>
+                    <input type="text" name="userName" ng-model="userName" placeholder="Your Name..." required>
+                    <div class="submit-area">
+                        <button class="btn btn-large btn-primary"
+                                type="button"
+                                ng-click="joinCodeCollab()">Join CodeCollab!</button>
+                    </div>
+                    <div class="error-area"
+                         ng-show="joinCodeCollabForm.userName.$dirty && joinCodeCollabForm.userName.$invalid">
+                        {{errorReason}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

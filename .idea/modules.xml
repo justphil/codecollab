@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/codecollab-ui/codecollab-ui.iml" filepath="$PROJECT_DIR$/codecollab-ui/codecollab-ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/codecollab-vertx-main/codecollab-vertx-main.iml" filepath="$PROJECT_DIR$/codecollab-vertx-main/codecollab-vertx-main.iml" />
+    </modules>
+  </component>
+</project>
+

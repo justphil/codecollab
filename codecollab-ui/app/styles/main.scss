@@ -1,0 +1,99 @@
+@import "compass_twitter_bootstrap";
+
+header nav.navbar-inner {
+  border-bottom: #777777 solid 1px;
+}
+
+header, .main-stage {
+  display: block;
+  transition: opacity 2s ease-in;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+header.active, .main-stage.active {
+  opacity: 1;
+  height: auto;
+}
+
+#main-content > #left, #main-content > #right {
+  width: 50%;
+  float: left;
+  position: relative;
+}
+
+#editor {
+  width: 100%;
+  height: 1080px; /* Will be set dynamically on window resize and onLoad */
+  background-color: #272822;
+}
+
+div#right-content {
+  width: 100%;
+  height: 1080px; /* Will be set dynamically on window resize and onLoad */
+  background-image: url("img/noisy-texture.png");
+}
+
+div.start-form-overlay {
+  box-sizing: border-box;
+  background-color: #333333;
+  position: relative;
+  top: 8px;
+  width: 98%;
+  margin: auto;
+  padding: 10px;
+  border-radius: 10px;
+  border: #777777 dashed 1px;
+  text-align: center;
+}
+
+#right-content .start-form-overlay h1 {
+  //color: #FFE99D;
+  color: #dcd1b9;
+  display: inline-block;
+  //width: 88%;
+  border-bottom: #777777 dashed 1px;
+}
+
+.start-form-overlay input {
+  width: 86%;
+  height: 30px;
+}
+
+.start-form-overlay select {
+  width: 88%;
+  height: 40px;
+}
+
+.start-form-overlay button.allow-editing-switch {
+  width: 88%;
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+.start-form-overlay .submit-area {
+  width: 88%;
+  margin: auto;
+  text-align: right;
+  border-top: #777777 dashed 1px;
+  padding-top: 5px;
+}
+
+.start-form-overlay .error-area {
+  box-sizing: border-box;
+  background-color: #414141;
+  color: #ffdb13;
+  width: 88%;
+  margin: auto;
+  margin-top: 5px;
+  text-align: center;
+  border: #ff5b1e dashed 1px;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.modal-body .codecollabUrl {
+  width: 95%;
+  margin: auto;
+}

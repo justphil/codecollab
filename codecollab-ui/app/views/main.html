@@ -1,0 +1,36 @@
+<div id="main-content">
+    <div id="left">
+        <ace editor-id="dummyEditor"
+             theme="{{aceTheme}}"
+             mode="ace/mode/javascript"
+             init-code="aceInitCode">
+        </ace>
+    </div>
+    <div id="right">
+        <div id="right-content">
+            <div class="start-form-overlay">
+                <h1>Start a collaboration session!</h1>
+
+                <form name="startCodeCollabForm" novalidate>
+                    <input type="text" name="userName" ng-model="userName" placeholder="Your Name..." required>
+                    <select ng-model="aceMode" ng-options="lang for lang in supportedProgrammingLanguages">
+                    </select>
+                    <button type="button"
+                            class="btn allow-editing-switch"
+                            ng-class="allowEditingClass()"
+                            ng-bind="getAllowEditingText()"
+                            ng-model="allowEditing" bs-button></button>
+                    <div class="submit-area">
+                        <button class="btn btn-large btn-primary"
+                                type="button"
+                                ng-click="startNewCodeCollab()">Start CodeCollab!</button>
+                    </div>
+                    <div class="error-area"
+                         ng-show="startCodeCollabForm.userName.$dirty && startCodeCollabForm.userName.$invalid">
+                        Please enter a valid name.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
