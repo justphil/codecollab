@@ -53,7 +53,7 @@ var CODE_COLLAB_SERVER = CODE_COLLAB_SERVER || {};
             sockJsHandler.onClose(sock);
         });
 
-        LOG.i('sockjs id: ' + sock[CONST.SOCK_ID_KEY]);
+        LOG.i('sockjs id: ' + sock[CONST.SOCK_ID_KEY]());
     });
 
     // bind http server to the specified port and start listening for requests

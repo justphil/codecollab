@@ -1,7 +1,6 @@
-var vertx = require('vertx');
+var console = require('console');
 
 module.exports = function(id) {
-    var LOG = vertx.logger;
     var LOG_ID = id;
 
     var formatDigits = function(digit, numZeros) {
@@ -39,7 +38,7 @@ module.exports = function(id) {
         curr_sec    = formatDigits(curr_sec, 1);
         curr_milli  = formatDigits(curr_milli, 2);
 
-        LOG.info("[" + curr_year + '-'+curr_month+'-' +curr_day+ ' '
+        console.log("[" + curr_year + '-'+curr_month+'-' +curr_day+ ' '
             +curr_hour+':' + curr_min + ':'+curr_sec+'.'+curr_milli
             + " # " + LOG_ID + "] " + msg);
     };

@@ -82,7 +82,7 @@ module.exports = function(uuid, allowEditing, aceTheme, aceMode) {
 
         for (var sockId in collaborators) {
             if (collaborators.hasOwnProperty(sockId) && senderSockId !== sockId) {
-                collaborators[sockId].getSock().writeBuffer(buff);
+                collaborators[sockId].getSock().write(buff);
                 LOG.i('broadcast! ' + sockId);
             }
         }

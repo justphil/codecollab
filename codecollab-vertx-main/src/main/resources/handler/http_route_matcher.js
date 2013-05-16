@@ -11,8 +11,12 @@ var makeCORS = function(req) {
 
     var reqHeaders = req.headers();
 
-    if (reqHeaders['access-control-request-headers']) {
-        req.response.putHeader('Access-Control-Allow-Headers', reqHeaders['access-control-request-headers']);
+    LOG.i(Object.keys(req.headers()));
+
+    LOG.i('Value of access-control-request-headers: ' + reqHeaders.get('access-control-request-headers'));
+
+    if (reqHeaders.get('access-control-request-headers')) {
+        req.response.putHeader('Access-Control-Allow-Headers', reqHeaders.get('access-control-request-headers'));
     }
 };
 
@@ -54,7 +58,7 @@ module.exports = function(sessionManager) {
 
     // fall back: serve static files hack
     routeMatcher.noMatch(function(req) {
-        var PATH = req.path;
+        var PATH = req.path();
         LOG.i("Incoming HTTP request! Path -> " + PATH);
 
         if (PATH === '/') {

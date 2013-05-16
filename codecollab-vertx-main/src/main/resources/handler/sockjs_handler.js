@@ -5,7 +5,7 @@ var Collaborator    = require('model/collaborator.js');
 var LOG             = new Logger('sockjs_handler.js');
 
 var broadcast = function(sessionManager, senderSock, msg) {
-    var sockId      = senderSock[CONST.SOCK_ID_KEY];
+    var sockId      = senderSock[CONST.SOCK_ID_KEY]();
     var sessionId   = sessionManager.getSessionId(sockId);
     var session     = sessionManager.getSession(sessionId);
     session.broadcast(sockId, msg);
@@ -13,7 +13,7 @@ var broadcast = function(sessionManager, senderSock, msg) {
 
 var handleNonPresenterDisconnected = function(sessionManager, session, sock) {
     // non-presenter has disconnected -> session continues
-    var sockId  = sock[CONST.SOCK_ID_KEY];
+    var sockId  = sock[CONST.SOCK_ID_KEY]();
     var name    = session.getCollaboratorBySockId(sockId).getName();
 
     var leftMsg = {
@@ -45,12 +45,12 @@ module.exports = function(sessionManager) {
                         reason: 'There is already a session participant with the name "'+name+'". Please choose another name!'
                     }
                 });
-                sock.writeBuffer(new vertx.Buffer(responseMsg));
+                sock.write(new vertx.Buffer(responseMsg));
             }
             else {
                 var isPresenter = session.getCollaboratorSize() === 0; // The first collaborator that joins is the presenter.
                 var collaborator= new Collaborator(name, sock, isPresenter);
-                var sockId      = sock[CONST.SOCK_ID_KEY];
+                var sockId      = sock[CONST.SOCK_ID_KEY]();
                 session.addCollaborator(sockId, collaborator);
 
                 sessionManager.associateSocket(sockId, sessionId);
@@ -72,7 +72,8 @@ module.exports = function(sessionManager) {
                         }
                     });
 
-                    sock.writeBuffer(new vertx.Buffer(msgToSend));
+                    LOG.i(Object.keys(sock));
+                    sock.write(new vertx.Buffer(msgToSend));
                     LOG.i('Collaborator ' + name + ' has joined! sockId: ' + sockId + ' # isPresenter: ' + isPresenter);
                 }
                 else {
@@ -86,7 +87,7 @@ module.exports = function(sessionManager) {
                     });
 
                     var presenterSock = presenter.getSock();
-                    presenterSock.writeBuffer(new vertx.Buffer(requestCodeMsg));
+                    presenterSock.write(new vertx.Buffer(requestCodeMsg));
                 }
             }
         }
@@ -101,7 +102,7 @@ module.exports = function(sessionManager) {
                 var requester   = session.getCollaboratorBySockId(receiverSockId);
                 if (requester !== null) {
                     // send the requester the received code snapshot
-                    requester.getSock().writeBuffer(new vertx.Buffer(JSON.stringify({
+                    requester.getSock().write(new vertx.Buffer(JSON.stringify({
                         type: CONST.PROTOCOL.MSG_TYPE_CODE_SNAPSHOT,
                         data: {
                             code:           code,
@@ -132,7 +133,7 @@ module.exports = function(sessionManager) {
     };
 
     this.onClose = function(sock) {
-        var sockId      = sock[CONST.SOCK_ID_KEY];
+        var sockId      = sock[CONST.SOCK_ID_KEY]();
         var sessionId   = sessionManager.getSessionId(sockId);
         if (sessionId) {
             var session = sessionManager.getSession(sessionId);
