@@ -10,16 +10,23 @@
     <div id="right">
         <div id="right-content">
             <!--
-                Only show if user is presenter
+                Only show if user is presenter or non-presenter has joined
             -->
-            <div class="start-form-overlay" ng-hide="showJoinForm">
+            <div class="start-form-overlay align-center" ng-show="showHaveFun">
                 <h1>Have fun with CodeCollab!</h1>
+            </div>
+
+            <!--
+                Only show if user is presenter or non-presenter has joined
+            -->
+            <div class="start-form-overlay" ng-show="showCollaborators">
+                <collaborators collaborators="session.collaborators"></collaborators>
             </div>
 
             <!--
                 Only show if user is non-presenter
             -->
-            <div class="start-form-overlay" ng-show="showJoinForm">
+            <div class="start-form-overlay align-center" ng-show="showJoinForm">
                 <h1>Join a collaboration session!</h1>
 
                 <form name="joinCodeCollabForm" novalidate>

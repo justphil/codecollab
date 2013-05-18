@@ -53,6 +53,31 @@ angular.module('codecollabUiApp')
                         console.log('getAceInstanceByElementId callback invoked!');
                     });
 
+                    $scope.session = {
+                        collaborators: [
+                            {uuid: '1', name: 'phil', color: '#CB2626'},
+                            {uuid: '2', name: 'rob', color: '#ffe562'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
+                            {uuid: '3', name: 'sascha', color: '#FFFFEE'}
+                        ],
+                        stream: []
+                    };
                     $scope.aceInitCode = ''; // The initially visible content of the editor
                     $scope.userName = '';
                     $scope.errorReason = DEFAULT_ERROR_REASON;
@@ -124,15 +149,16 @@ angular.module('codecollabUiApp')
                         console.log("onUserLeftHandler", data);
                     });
 
+                    // this handler will only be invoked if non-presenter joins
                     protocolHandler.registerOnCodeSnapshotHandler(function (data) {
                         console.log("onCodeSnapshotHandler", data);
                         var code = data.code;
 
                         $scope.$apply(function () {
                             $scope.aceInitCode = code;
-                            $scope.showJoinForm = false;
                             $scope.aceTheme = data.aceTheme;
                             $scope.aceMode = data.aceMode;
+                            showSessionArea();
                         });
 
                         if (data.allowEditing) {
@@ -274,7 +300,7 @@ angular.module('codecollabUiApp')
                          */
 
                         $scope.isPresenter = true;
-                        $scope.showJoinForm = false;
+                        showSessionArea();
 
                         // immediately try to join
                         $scope.userName = $rootScope.codecollabSession.userName;
@@ -293,7 +319,7 @@ angular.module('codecollabUiApp')
                     else {
                         console.log('non-presenter!');
                         $scope.isPresenter = false;
-                        $scope.showJoinForm = true;
+                        showJoinForm();
                     }
 
                     /* ################################################################# */
@@ -312,6 +338,28 @@ angular.module('codecollabUiApp')
                     });
 
                     resizeHeight();
+                };
+                // end of initSessionController()
+                /* ################################################################################ */
+                /* ################################################################################ */
+                /* ################################################################################ */
+
+                var showJoinForm = function() {
+                    $scope.showJoinForm         = true;
+                    $scope.showHaveFun          = false;
+                    $scope.showCollaborators    = false;
+                };
+
+                var showSessionArea = function() {
+                    $scope.showJoinForm         = false;
+                    $scope.showHaveFun          = true;
+                    $scope.showCollaborators    = true;
+
+                    $window.setTimeout(function() {
+                        $scope.$apply(function() {
+                            $scope.showHaveFun = false;
+                        });
+                    }, 5000);
                 };
 
             }]);

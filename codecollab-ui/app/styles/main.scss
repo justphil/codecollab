@@ -45,6 +45,9 @@ div.start-form-overlay {
   padding: 10px;
   border-radius: 10px;
   border: #777777 dashed 1px;
+}
+
+.align-center {
   text-align: center;
 }
 
@@ -96,4 +99,17 @@ div.start-form-overlay {
 .modal-body .codecollabUrl {
   width: 95%;
   margin: auto;
+}
+
+.start-form-overlay li.collaborator {
+  display: inline-block;
+  color: #e4e4e4;
+  background-color: #7a7a7a;
+  padding: 3px;
+  margin: 2px;
+}
+
+.start-form-overlay ul.collaborator {
+  margin: 0;
+  padding: 0;
 }
