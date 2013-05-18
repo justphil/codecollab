@@ -11,9 +11,9 @@ var makeCORS = function(req) {
 
     var reqHeaders = req.headers();
 
-    LOG.i(Object.keys(req.headers()));
+    //LOG.i(Object.keys(req.headers()));
 
-    LOG.i('Value of access-control-request-headers: ' + reqHeaders.get('access-control-request-headers'));
+    //LOG.i('Value of access-control-request-headers: ' + reqHeaders.get('access-control-request-headers'));
 
     if (reqHeaders.get('access-control-request-headers')) {
         req.response.putHeader('Access-Control-Allow-Headers', reqHeaders.get('access-control-request-headers'));
@@ -30,6 +30,38 @@ module.exports = function(sessionManager) {
      aceTheme:       'ace/theme/monokai',
      aceMode:        aceModeMap[$scope.aceMode]
      */
+
+    routeMatcher.get('/session/:sessionId', function(req) {
+        var sessionId = req.params().get('sessionId');
+        makeCORS(req);
+        var res;
+        if (sessionManager.isSession(sessionId)) {
+            var session = sessionManager.getSession(sessionId);
+
+            res = {
+                allowEditing:   session.getAllowEditing(),
+                aceTheme:       session.getAceTheme(),
+                aceMode:        session.getAceMode(),
+                collaborators:  {}
+            };
+
+            var collaborators = session.getCollaborators();
+            for (var sockId in collaborators) {
+                if (collaborators.hasOwnProperty(sockId)) {
+                    res.collaborators[sockId] = collaborators[sockId].getName();
+                }
+            }
+
+            req.response.end(JSON.stringify(res));
+        }
+        else {
+            req.response.statusCode(404);
+            res = {
+                msg: 'Session with id ' + sessionId + ' not found.'
+            };
+            req.response.end(JSON.stringify(res));
+        }
+    });
 
     routeMatcher.post('/session', function (req) {
         req.bodyHandler(function(bodyData) {

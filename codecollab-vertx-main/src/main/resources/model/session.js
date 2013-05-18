@@ -21,6 +21,10 @@ module.exports = function(uuid, allowEditing, aceTheme, aceMode) {
         return Object.keys(collaborators).length;
     };
 
+    this.getCollaborators = function() {
+        return collaborators;
+    };
+
     this.getPresenter = function() {
         for (var sockId in collaborators) {
             if (collaborators.hasOwnProperty(sockId) && collaborators[sockId].isPresenter()) {

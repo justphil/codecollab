@@ -18,6 +18,10 @@ module.exports = function() {
         return sessions[sessionId];
     };
 
+    this.isSession = function(sessionId) {
+        return sessions.hasOwnProperty(sessionId);
+    };
+
     this.getSessionId = function(sockId) {
         LOG.i('getSessionId with id: ' + sockId);
 
