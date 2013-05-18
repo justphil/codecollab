@@ -38,7 +38,16 @@ module.exports = function(sessionManager) {
             var sessionId   = msg.data.sessionId;
             var session     = sessionManager.getSession(sessionId);
 
-            if (session.isCollaboratorWithName(name)) {
+            if (!session) {
+                var responseMsg = JSON.stringify({
+                    type: CONST.PROTOCOL.MSG_TYPE_JOIN_FAILED,
+                    data: {
+                        reason: 'There is no session with id ' + sessionId + '.'
+                    }
+                });
+                sock.write(new vertx.Buffer(responseMsg));
+            }
+            else if (session.isCollaboratorWithName(name)) {
                 var responseMsg = JSON.stringify({
                     type: CONST.PROTOCOL.MSG_TYPE_JOIN_FAILED,
                     data: {
