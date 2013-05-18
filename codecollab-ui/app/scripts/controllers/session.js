@@ -299,6 +299,8 @@ angular.module('codecollabUiApp')
                         }
                     };
 
+                    // TODO: handle following case: if a connected presenter wants to join another session as
+                    // non-presenter!
                     // handle presenter / non-presenter case
                     if ($rootScope.codecollabSession && $rootScope.codecollabSession.isPresenter) {
                         console.log('presenter!');
