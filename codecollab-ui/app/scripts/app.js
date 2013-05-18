@@ -15,7 +15,5 @@ angular.module('codecollabUiApp', ['$strap.directives'])
                 redirectTo: '/'
             });
 
-        $provide.value('EB_ADDRESS_PUBLIC_IN', 'cc.pub.in'); // 00000000-0000-002a-0000-00000000002a
-        $provide.value('EB_ADDRESS_PRIVATE_IN', 'cc.priv.in');
-
+        $provide.value('VERTX_PORT', '8080');
     }]);

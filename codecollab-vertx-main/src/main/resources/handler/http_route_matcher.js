@@ -88,6 +88,11 @@ module.exports = function(sessionManager) {
         req.response.end();
     });
 
+    routeMatcher.options('/session/:sessionId', function (req) {
+        makeCORS(req);
+        req.response.end();
+    });
+
     // fall back: serve static files hack
     routeMatcher.noMatch(function(req) {
         var PATH = req.path();
