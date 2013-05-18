@@ -12,15 +12,22 @@
             <!--
                 Only show if user is presenter or non-presenter has joined
             -->
-            <div class="start-form-overlay align-center" ng-show="showHaveFun">
+            <div id="have-fun-panel" class="start-form-overlay align-center" ng-show="showHaveFun">
                 <h1>Have fun with CodeCollab!</h1>
             </div>
 
             <!--
                 Only show if user is presenter or non-presenter has joined
             -->
-            <div class="start-form-overlay" ng-show="showCollaborators">
+            <div id="collaborators-panel" class="start-form-overlay" ng-show="showCollaborators">
                 <collaborators collaborators="session.collaborators"></collaborators>
+            </div>
+
+            <!--
+                Only show if user is presenter or non-presenter has joined
+            -->
+            <div id="stream-panel" class="start-form-overlay" ng-show="showCollaborators">
+                <stream stream="session.stream"></stream>
             </div>
 
             <!--

@@ -55,7 +55,15 @@ angular.module('codecollabUiApp')
 
                     $scope.session = {
                         collaborators: [], // {uuid: '1', name: 'phil', color: '#CB2626'}
-                        stream: []
+                        stream: [
+                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 1."},
+                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 2."},
+                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 3."},
+                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 4."},
+                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 5."},
+                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 6."},
+                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 7."}
+                        ]
                     };
                     $scope.aceInitCode = ''; // The initially visible content of the editor
                     $scope.userName = '';
@@ -324,22 +332,6 @@ angular.module('codecollabUiApp')
                         showJoinForm();
                     }
 
-                    /* ################################################################# */
-                    /* ################################################################# */
-                    /* ################################################################# */
-
-                    // TODO: This is not the right place for this kind of logic!
-
-                    var resizeHeight = function () {
-                        var winHeight = $(window).height() - 40;
-                        $('div#right-content').height(winHeight);
-                    };
-
-                    $(window).resize(function () {
-                        resizeHeight();
-                    });
-
-                    resizeHeight();
                 };
                 // end of initSessionController()
                 /* ################################################################################ */
@@ -348,20 +340,12 @@ angular.module('codecollabUiApp')
 
                 var showJoinForm = function() {
                     $scope.showJoinForm         = true;
-                    $scope.showHaveFun          = false;
                     $scope.showCollaborators    = false;
                 };
 
                 var showSessionArea = function() {
                     $scope.showJoinForm         = false;
-                    $scope.showHaveFun          = true;
                     $scope.showCollaborators    = true;
-
-                    $window.setTimeout(function() {
-                        $scope.$apply(function() {
-                            $scope.showHaveFun = false;
-                        });
-                    }, 5000);
                 };
 
                 var handleJoinedCollaborator = function(sockId, name, color) {
@@ -388,5 +372,25 @@ angular.module('codecollabUiApp')
                         uuid: sockId, name: name, color: color
                     };
                 };
+
+                /* ################################################################# */
+                /* ################################################################# */
+                /* ################################################################# */
+
+                // TODO: This is not the right place for this kind of logic!
+
+                var resizeHeight = function () {
+                    var winHeight = $(window).height() - 40;
+                    $('div#right-content').height(winHeight);
+
+                    var collaboratorsPanelHeight = $('div#collaborators-panel').height();
+                    $('div#stream-panel').height(winHeight - 70 - collaboratorsPanelHeight);
+                };
+
+                $(window).resize(function () {
+                    resizeHeight();
+                });
+
+                resizeHeight();
 
             }]);
