@@ -386,7 +386,7 @@ angular.module('codecollabUiApp')
                     $('div#right-content').height(winHeight);
 
                     var collaboratorsPanelHeight = $('div#collaborators-panel').height();
-                    $('div#stream-panel').height(winHeight - 70 - collaboratorsPanelHeight);
+                    $('div#stream-panel').height(winHeight - 100 - collaboratorsPanelHeight);
                 };
 
                 $(window).resize(function () {

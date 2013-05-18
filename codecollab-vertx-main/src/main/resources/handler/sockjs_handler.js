@@ -54,7 +54,7 @@ module.exports = function(sessionManager) {
                 var responseMsg = JSON.stringify({
                     type: CONST.PROTOCOL.MSG_TYPE_JOIN_FAILED,
                     data: {
-                        reason: 'There is already a session participant with the name "'+name+'".<br>Please choose another name!'
+                        reason: 'There is already a session participant with the name "'+name+'". Please choose another name!'
                     }
                 });
                 sock.write(new vertx.Buffer(responseMsg));
