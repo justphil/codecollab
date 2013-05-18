@@ -25,6 +25,23 @@ module.exports = function(uuid, allowEditing, aceTheme, aceMode) {
         return collaborators;
     };
 
+    this.getCollaboratorsExcept = function(excludedSockId) {
+        var out = [];
+
+        for (var sockId in collaborators) {
+            if (collaborators.hasOwnProperty(sockId) && sockId !== excludedSockId) {
+                var c = collaborators[sockId];
+                out.push({
+                    name: c.getName(),
+                    sockId: sockId,
+                    color: c.getColor()
+                });
+            }
+        }
+
+        return out;
+    };
+
     this.getPresenter = function() {
         for (var sockId in collaborators) {
             if (collaborators.hasOwnProperty(sockId) && collaborators[sockId].isPresenter()) {

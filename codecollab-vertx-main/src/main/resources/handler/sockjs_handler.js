@@ -1,6 +1,7 @@
 var vertx           = require('vertx');
 var CONST           = require('cfg/const.js');
 var Logger          = require('util/logger.js');
+var Color           = require('util/color.js');
 var Collaborator    = require('model/collaborator.js');
 var LOG             = new Logger('sockjs_handler.js');
 
@@ -16,11 +17,13 @@ var handleNonPresenterDisconnected = function(sessionManager, session, sock) {
     var sockId  = sock[CONST.SOCK_ID_KEY]();
     var name    = session.getCollaboratorBySockId(sockId).getName();
 
+    LOG.i('Non-presenter has disconnected: ' + name);
+
     var leftMsg = {
         type: CONST.PROTOCOL.MSG_TYPE_LEFT,
         data: {
-            quitterSockId: sockId,
-            quitterName: name
+            sockId: sockId,
+            name: name
         }
     };
     broadcast(sessionManager, sock, leftMsg); // broadcast(...) expects a JSON object as msg!
@@ -51,14 +54,15 @@ module.exports = function(sessionManager) {
                 var responseMsg = JSON.stringify({
                     type: CONST.PROTOCOL.MSG_TYPE_JOIN_FAILED,
                     data: {
-                        reason: 'There is already a session participant with the name "'+name+'". Please choose another name!'
+                        reason: 'There is already a session participant with the name "'+name+'".<br>Please choose another name!'
                     }
                 });
                 sock.write(new vertx.Buffer(responseMsg));
             }
             else {
                 var isPresenter = session.getCollaboratorSize() === 0; // The first collaborator that joins is the presenter.
-                var collaborator= new Collaborator(name, sock, isPresenter);
+                var color       = Color.generateColor();
+                var collaborator= new Collaborator(name, sock, isPresenter, color);
                 var sockId      = sock[CONST.SOCK_ID_KEY]();
                 session.addCollaborator(sockId, collaborator);
 
@@ -77,11 +81,12 @@ module.exports = function(sessionManager) {
                     var msgToSend = JSON.stringify({
                         type: CONST.PROTOCOL.MSG_TYPE_JOINED,
                         data: {
-                            code: initCode
+                            code: initCode,
+                            sockId: sockId,
+                            color: color
                         }
                     });
 
-                    LOG.i(Object.keys(sock));
                     sock.write(new vertx.Buffer(msgToSend));
                     LOG.i('Collaborator ' + name + ' has joined! sockId: ' + sockId + ' # isPresenter: ' + isPresenter);
                 }
@@ -110,14 +115,19 @@ module.exports = function(sessionManager) {
                 var session     = sessionManager.getSession(sessionId);
                 var requester   = session.getCollaboratorBySockId(receiverSockId);
                 if (requester !== null) {
+                    var color = requester.getColor();
+
                     // send the requester the received code snapshot
                     requester.getSock().write(new vertx.Buffer(JSON.stringify({
                         type: CONST.PROTOCOL.MSG_TYPE_CODE_SNAPSHOT,
                         data: {
                             code:           code,
+                            color:          color,
+                            sockId:         receiverSockId,
                             aceMode:        session.getAceMode(),
                             aceTheme:       session.getAceTheme(),
-                            allowEditing:   session.getAllowEditing()
+                            allowEditing:   session.getAllowEditing(),
+                            collaborators:  session.getCollaboratorsExcept(receiverSockId)
                         }
                     })));
 
@@ -125,8 +135,9 @@ module.exports = function(sessionManager) {
                     var userJoinedMsg = {
                         type: CONST.PROTOCOL.MSG_TYPE_USER_JOINED,
                         data: {
-                            joinedName: requester.getName(),
-                            joinedSockId: receiverSockId
+                            name:   requester.getName(),
+                            sockId: receiverSockId,
+                            color:  color
                         }
                     };
                     broadcast(sessionManager, requester.getSock(), userJoinedMsg);

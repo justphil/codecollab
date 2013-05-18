@@ -54,28 +54,7 @@ angular.module('codecollabUiApp')
                     });
 
                     $scope.session = {
-                        collaborators: [
-                            {uuid: '1', name: 'phil', color: '#CB2626'},
-                            {uuid: '2', name: 'rob', color: '#ffe562'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'},
-                            {uuid: '3', name: 'sascha', color: '#FFFFEE'}
-                        ],
+                        collaborators: [], // {uuid: '1', name: 'phil', color: '#CB2626'}
                         stream: []
                     };
                     $scope.aceInitCode = ''; // The initially visible content of the editor
@@ -121,11 +100,15 @@ angular.module('codecollabUiApp')
                     // init protocol handler
                     protocolHandler.registerOnJoinedHandler(function (data) {
                         console.log("onJoinedHandler", data);
-                        var code = data.code;
+                        var code    = data.code;
+                        var sockId  = data.sockId;
+                        var color   = data.color;
                         code = code.replace('#JOIN_URL#', $window.location.href);
 
                         $scope.$apply(function () {
                             $scope.aceInitCode = code;
+                            // add presenter to the collaborators array
+                            handleJoinedCollaborator(sockId, $scope.userName, color);
                         })
                     });
 
@@ -143,13 +126,23 @@ angular.module('codecollabUiApp')
 
                     protocolHandler.registerOnUserJoinedHandler(function (data) {
                         console.log("onUserJoinedHandler", data);
+
+                        $scope.$apply(function () {
+                            // add collaborator to the collaborators array
+                            handleJoinedCollaborator(data.sockId, data.name, data.color);
+                        });
                     });
 
                     protocolHandler.registerOnUserLeftHandler(function (data) {
                         console.log("onUserLeftHandler", data);
+
+                        $scope.$apply(function () {
+                            // remove collaborator from the collaborators array
+                            handleLeftCollaborator(data.sockId);
+                        });
                     });
 
-                    // this handler will only be invoked if non-presenter joins
+                    // this handler will only be invoked if this user is a non-presenter and joins the session
                     protocolHandler.registerOnCodeSnapshotHandler(function (data) {
                         console.log("onCodeSnapshotHandler", data);
                         var code = data.code;
@@ -158,6 +151,15 @@ angular.module('codecollabUiApp')
                             $scope.aceInitCode = code;
                             $scope.aceTheme = data.aceTheme;
                             $scope.aceMode = data.aceMode;
+                            // all other collaborators
+                            var collaborators = data.collaborators;
+                            for (var i = 0; i < collaborators.length; i++) {
+                                handleJoinedCollaborator(
+                                    collaborators[i].sockId, collaborators[i].name, collaborators[i].color
+                                );
+                            }
+                            // myself
+                            handleJoinedCollaborator(data.sockId, $scope.userName, data.color);
                             showSessionArea();
                         });
 
@@ -360,6 +362,31 @@ angular.module('codecollabUiApp')
                             $scope.showHaveFun = false;
                         });
                     }, 5000);
+                };
+
+                var handleJoinedCollaborator = function(sockId, name, color) {
+                    $scope.session.collaborators.push(createCollaborator(sockId, name, color));
+                };
+
+                var handleLeftCollaborator = function(sockId) {
+                    var coll = $scope.session.collaborators;
+                    var index = -1;
+                    for (var i = 0; i < coll.length; i++) {
+                        if (coll[i].uuid === sockId) {
+                            index = i;
+                            break;
+                        }
+                    }
+
+                    if (index !== -1) {
+                        coll.splice(index, 1);
+                    }
+                };
+
+                var createCollaborator = function(sockId, name, color) {
+                    return {
+                        uuid: sockId, name: name, color: color
+                    };
                 };
 
             }]);
