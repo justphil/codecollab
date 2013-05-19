@@ -136,6 +136,11 @@ div.start-form-overlay {
   word-wrap: break-word;
 }
 
+.start-form-overlay div.stream-message.system {
+  color: #9e9e9e;
+  border: #ffdb13 dashed 1px;
+}
+
 .start-form-overlay div.stream-message .date {
   font-size: 70%;
   color: #808080;
@@ -167,3 +172,4 @@ div.start-form-overlay {
   max-height: 95%;
   overflow: scroll;
 }
+

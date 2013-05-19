@@ -56,13 +56,13 @@ angular.module('codecollabUiApp')
                     $scope.session = {
                         collaborators: [], // {uuid: '1', name: 'phil', color: '#CB2626'}
                         stream: [
-                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 1."},
-                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 2."},
-                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 3."},
-                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 4."},
-                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 5."},
-                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 6."},
-                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 7."}
+                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 1.", system: false},
+                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 2.", system: false},
+                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 3.", system: false},
+                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 4.", system: false},
+                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 5.", system: false},
+                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 6.", system: true},
+                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 7.", system: true}
                         ]
                     };
                     $scope.aceInitCode  = ''; // The initially visible content of the editor
@@ -308,7 +308,7 @@ angular.module('codecollabUiApp')
 
                     $scope.sendChatMessage = function() {
                         var msg = $scope.chatMessage;
-                        handleNewStreamMessage($scope.userName, $scope.color, msg);
+                        handleNewStreamMessage($scope.userName, $scope.color, msg, false);
                         $scope.chatMessage = '';
                     };
 
@@ -382,9 +382,9 @@ angular.module('codecollabUiApp')
                     }
                 };
 
-                var handleNewStreamMessage = function(name, color, msg) {
+                var handleNewStreamMessage = function(name, color, msg, system) {
                     $scope.session.stream.push(
-                        createStreamMessage(name, color, msg)
+                        createStreamMessage(name, color, msg, system)
                     );
                 };
 
@@ -394,8 +394,8 @@ angular.module('codecollabUiApp')
                     };
                 };
 
-                var createStreamMessage = function(name, color, msg) {
-                    return {time: new Date().getTime(), name: name, color: color, msg: msg};
+                var createStreamMessage = function(name, color, msg, system) {
+                    return {time: new Date().getTime(), name: name, color: color, msg: msg, system: system};
                 };
 
                 /* ################################################################# */

@@ -3,13 +3,16 @@
 angular.module('codecollabUiApp')
     .directive('stream', function () {
         return {
-            template: '<div class="stream-message-container"><div class="stream-message img-rounded" ng-repeat="s in stream" ng-class="getTextAlignment(s.name)">' +
-                        ' <span ng-show="isPresenterMessage(s.name)">' +
+            template: '<div class="stream-message-container"><div class="stream-message img-rounded" ng-repeat="s in stream" ng-class="getStreamMessageClasses(s.name, s.system)">' +
+                        ' <span ng-show="isPresenterMessage(s.name) && !s.system">' +
                             '<div class="color-indicator img-rounded" style="background-color: {{s.color}};"></div> <span class="date">{{s.time | date:\'HH:mm:ss\'}}</span> <span class="name">{{s.name}}</span> {{s.msg}}' +
                         '</span>' +
-                        ' <span ng-hide="isPresenterMessage(s.name)">' +
+                        ' <span ng-hide="isPresenterMessage(s.name) || s.system">' +
                             '{{s.msg}} <span class="name-non-presenter">{{s.name}}</span> <span class="date">{{s.time | date:\'HH:mm:ss\'}}</span> ' +
                             '<div class="color-indicator img-rounded" style="background-color: {{s.color}};"></div>' +
+                        '</span>' +
+                        '<span ng-show="s.system">' +
+                            '<span class="date">{{s.time | date:\'HH:mm:ss\'}}</span> {{s.msg}}' +
                         '</span>' +
                       '</div></div>',
             restrict: 'E',
@@ -43,12 +46,17 @@ angular.module('codecollabUiApp')
                     return name === $scope.presenterName;
                 };
 
-                $scope.getTextAlignment = function(name) {
-                    if ($scope.isPresenterMessage(name)) {
-                        return '';
+                $scope.getStreamMessageClasses = function(name, isSystemMessage) {
+                    if (isSystemMessage) {
+                        return 'text-center system';
                     }
                     else {
-                        return 'text-right'
+                        if ($scope.isPresenterMessage(name)) {
+                            return '';
+                        }
+                        else {
+                            return 'text-right'
+                        }
                     }
                 };
             }
