@@ -19,8 +19,11 @@
             <!--
                 Only show if user is presenter or non-presenter has joined
             -->
-            <div id="collaborators-panel" class="start-form-overlay" ng-show="showCollaborators">
-                <collaborators collaborators="session.collaborators"></collaborators>
+            <div id="collaborators-panel" class="start-form-overlay clearfix" ng-show="showCollaborators">
+                <div class="collaborators-container">
+                    <collaborators collaborators="session.collaborators"></collaborators>
+                </div>
+                <div class="collaborator-count" ng-bind="session.collaborators.length"></div>
             </div>
 
             <!--

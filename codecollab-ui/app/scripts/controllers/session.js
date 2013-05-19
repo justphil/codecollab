@@ -442,7 +442,7 @@ angular.module('codecollabUiApp')
 
 
                     //var collaboratorsPanelHeight = $('div#collaborators-panel').height();
-                    $('div#stream-panel').height(winHeight - 170);
+                    $('div#stream-panel').height(winHeight - 184);
                 };
 
                 $(window).resize(function () {
