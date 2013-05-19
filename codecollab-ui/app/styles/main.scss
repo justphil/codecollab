@@ -66,13 +66,11 @@ div.start-form-overlay {
 }
 
 .start-form-overlay input#chat-message-input {
-  width: 98%;
+  width: 100%;
   margin: 0;
 }
 
 .start-form-overlay form#chat-form {
-  position: absolute;
-  bottom: 5px;
   width: 97%;
   margin: 0;
 }
@@ -117,7 +115,7 @@ div.start-form-overlay {
 .start-form-overlay li.collaborator {
   display: inline-block;
   font-size: 90%;
-  color: #cccccc;
+  color: #bbbbbb;
   background-color: #1e1e1e;
   padding: 3px;
   margin: 2px;
@@ -130,8 +128,16 @@ div.start-form-overlay {
 
 .start-form-overlay div.stream-message {
   font-size: 90%;
-  color: #cccccc;
+  color: #eeeeee;
   background-color: #1e1e1e;
   padding: 3px;
   margin: 2px;
+}
+
+.start-form-overlay div.stream-message-container {
+  position: absolute;
+  bottom: 6px;
+  width: 97%;
+  max-height: 95%;
+  overflow: scroll;
 }
