@@ -31,20 +31,20 @@ module.exports = function() {
     this.removeSession = function(sessionId) {
         if (sessions.hasOwnProperty(sessionId)) {
             delete sessions[sessionId];
-            LOG.i('removeSession sessionId: "' + sessionId);
+            LOG.i('removeSession sessionId: ' + sessionId);
         }
     };
 
     this.associateSocket = function(sockId, sessionId) {
         sockToSessMap[sockId] = sessionId;
 
-        LOG.i('associateSocket sockId: "' + sockId + '" with sessionId: "' + sessionId + '"');
+        LOG.i('associateSocket sockId: ' + sockId + ' with sessionId: ' + sessionId);
     };
 
     this.unassociateSocket = function(sockId) {
         if (sockToSessMap.hasOwnProperty(sockId)) {
             delete sockToSessMap[sockId];
-            LOG.i('unassociateSocket sockId: "' + sockId);
+            LOG.i('unassociateSocket sockId: ' + sockId);
         }
     };
 };

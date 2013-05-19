@@ -12,6 +12,7 @@ angular.module('codecollabUiApp')
         var onLinesRemovedHandler;
         var onCodeSnapshotHandler;
         var onOverHandler;
+        var onStreamMessageHandler;
 
         var reset = function() {
             onJoinedHandler         = [];
@@ -24,6 +25,7 @@ angular.module('codecollabUiApp')
             onLinesRemovedHandler   = [];
             onCodeSnapshotHandler   = [];
             onOverHandler           = [];
+            onStreamMessageHandler  = [];
         };
 
         reset();
@@ -74,6 +76,10 @@ angular.module('codecollabUiApp')
 
         var onOver = function(data) {
             distributeMessage(data, onOverHandler);
+        };
+
+        var onStreamMessage = function(data) {
+            distributeMessage(data, onStreamMessageHandler);
         };
 
         // Public API here
@@ -150,6 +156,13 @@ angular.module('codecollabUiApp')
             },
             registerOnOverHandler: function(handler) {
                 onOverHandler.push(handler);
+            },
+
+            onStreamMessage: function(data) {
+                onStreamMessage(data);
+            },
+            registerOnStreamMessageHandler: function(handler) {
+                onStreamMessageHandler.push(handler);
             }
         };
     });

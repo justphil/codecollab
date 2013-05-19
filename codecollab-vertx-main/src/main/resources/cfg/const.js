@@ -9,6 +9,7 @@ module.exports = {
         MSG_TYPE_JOIN_FAILED    : 'joinFailed',
         MSG_TYPE_LEFT           : 'left',
         MSG_TYPE_OVER           : 'over',
+        MSG_TYPE_STREAM_MESSAGE : 'stream_message',
         MSG_TYPE_CODE_REQUESTED : 'codeRequested',
         MSG_TYPE_CODE_SNAPSHOT  : 'codeSnapshot',
         MSG_TYPE_INSERT_TEXT    : 'insertText',

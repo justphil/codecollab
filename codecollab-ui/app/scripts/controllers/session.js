@@ -55,15 +55,7 @@ angular.module('codecollabUiApp')
 
                     $scope.session = {
                         collaborators: [], // {uuid: '1', name: 'phil', color: '#CB2626'}
-                        stream: [
-                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 1.", system: false},
-                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 2.", system: false},
-                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 3.", system: false},
-                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 4.", system: false},
-                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 5.", system: false},
-                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 6.", system: true},
-                            {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 7.", system: true}
-                        ]
+                        stream: []
                     };
                     $scope.aceInitCode  = ''; // The initially visible content of the editor
                     $scope.userName     = '';
@@ -143,6 +135,9 @@ angular.module('codecollabUiApp')
                         $scope.$apply(function () {
                             // add collaborator to the collaborators array
                             handleJoinedCollaborator(data.sockId, data.name, data.color);
+                            handleNewStreamMessage(
+                                'system', '#FFFFFF', data.name + " has joined the session!", true
+                            );
                         });
                     });
 
@@ -151,7 +146,12 @@ angular.module('codecollabUiApp')
 
                         $scope.$apply(function () {
                             // remove collaborator from the collaborators array
-                            handleLeftCollaborator(data.sockId);
+                            var leftCollaborator = handleLeftCollaborator(data.sockId);
+                            if (leftCollaborator) {
+                                handleNewStreamMessage(
+                                    'system', '#FFFFFF', leftCollaborator.name + " has left the session!", true
+                                );
+                            }
                         });
                     });
 
@@ -248,6 +248,14 @@ angular.module('codecollabUiApp')
                         });
                     });
 
+                    protocolHandler.registerOnStreamMessageHandler(function (data) {
+                        console.log("onStreamMessageHandler", data);
+
+                        $scope.$apply(function () {
+                            handleNewStreamMessage(data.name, data.color, data.msg, data.system);
+                        });
+                    });
+
                     /* ################################################################################################## */
                     /* ################################################################################################## */
                     /* ################################################################################################## */
@@ -308,7 +316,26 @@ angular.module('codecollabUiApp')
 
                     $scope.sendChatMessage = function() {
                         var msg = $scope.chatMessage;
-                        handleNewStreamMessage($scope.userName, $scope.color, msg, false);
+
+                        if (angular.isDefined(msg)) {
+                            var trimmedMsg = msg.trim();
+                            if (trimmedMsg !== '') {
+                                var name    = $scope.userName;
+                                var color   = $scope.color;
+                                var system  = false;
+                                handleNewStreamMessage(name, color, msg, system);
+                                ccSession.send(JSON.stringify({
+                                    type: 'stream_message',
+                                    data: {
+                                        name:   name,
+                                        color:  color,
+                                        msg:    msg,
+                                        system: system
+                                    }
+                                }));
+                            }
+                        }
+
                         $scope.chatMessage = '';
                     };
 
@@ -377,9 +404,14 @@ angular.module('codecollabUiApp')
                         }
                     }
 
+                    var collaborator = null;
+
                     if (index !== -1) {
+                        collaborator = coll[index];
                         coll.splice(index, 1);
                     }
+
+                    return collaborator;
                 };
 
                 var handleNewStreamMessage = function(name, color, msg, system) {
