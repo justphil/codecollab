@@ -3,13 +3,19 @@
 angular.module('codecollabUiApp')
     .directive('stream', function () {
         return {
-            template: '<div class="stream-message-container"><div class="stream-message img-rounded" ng-repeat="s in stream">' +
-                        '<div class="color-indicator img-rounded" style="background-color: {{s.color}};"></div>' +
-                        ' <span class="date">{{s.time | date:\'HH:mm:ss\'}}</span> <span class="name">{{s.name}}</span> {{s.msg}}' +
+            template: '<div class="stream-message-container"><div class="stream-message img-rounded" ng-repeat="s in stream" ng-class="getTextAlignment(s.name)">' +
+                        ' <span ng-show="isPresenterMessage(s.name)">' +
+                            '<div class="color-indicator img-rounded" style="background-color: {{s.color}};"></div> <span class="date">{{s.time | date:\'HH:mm:ss\'}}</span> <span class="name">{{s.name}}</span> {{s.msg}}' +
+                        '</span>' +
+                        ' <span ng-hide="isPresenterMessage(s.name)">' +
+                            '{{s.msg}} <span class="name-non-presenter">{{s.name}}</span> <span class="date">{{s.time | date:\'HH:mm:ss\'}}</span> ' +
+                            '<div class="color-indicator img-rounded" style="background-color: {{s.color}};"></div>' +
+                        '</span>' +
                       '</div></div>',
             restrict: 'E',
             scope: {
-                stream: '='
+                stream:         '=',
+                presenterName:  '='
             },
             link: function postLink($scope, $element/*, $attrs*/) {
                 // auto scroll when new messages arrive
@@ -21,12 +27,29 @@ angular.module('codecollabUiApp')
                     return thisScope.stream.length;
                 }, function(newValue, oldValue) {
                     if (newValue !== oldValue) {
-                        console.log('stream array has changed to: ' + newValue);
-                        var streamMessageContainer = angular.element('.stream-message-container', $element)[0];
-                        var height = streamMessageContainer.scrollHeight;
-                        angular.element(streamMessageContainer).scrollTop(height);
+                        window.setTimeout(function() {
+                            console.log('stream array has changed to: ' + newValue);
+                            var streamMessageContainer = angular.element('.stream-message-container', $element)[0];
+                            var height = streamMessageContainer.scrollHeight;
+                            var lastChildHeight = angular.element('.stream-message:last-child', $element).height();
+                            console.log('last-child height: ' + lastChildHeight);
+                            angular.element(streamMessageContainer).scrollTop(height + lastChildHeight);
+                        }, 10);
                     }
                 });
+
+                $scope.isPresenterMessage = function(name) {
+                    return name === $scope.presenterName;
+                };
+
+                $scope.getTextAlignment = function(name) {
+                    if ($scope.isPresenterMessage(name)) {
+                        return '';
+                    }
+                    else {
+                        return 'text-right'
+                    }
+                };
             }
         };
     });

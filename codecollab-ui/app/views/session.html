@@ -27,7 +27,7 @@
                 Only show if user is presenter or non-presenter has joined
             -->
             <div id="stream-panel" class="start-form-overlay" ng-show="showCollaborators">
-                <stream stream="session.stream"></stream>
+                <stream stream="session.stream" presenter-name="userName"></stream>
             </div>
 
             <div id="chat-form-panel" class="start-form-overlay" ng-show="showCollaborators">
