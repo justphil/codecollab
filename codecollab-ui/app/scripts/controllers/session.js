@@ -65,10 +65,13 @@ angular.module('codecollabUiApp')
                             {time: new Date().getTime(), name: 'phil', color: '#FFFFFF', msg: "This is a test 7."}
                         ]
                     };
-                    $scope.aceInitCode = ''; // The initially visible content of the editor
-                    $scope.userName = '';
-                    $scope.errorReason = DEFAULT_ERROR_REASON;
-                    $scope.joinFailed = false;
+                    $scope.aceInitCode  = ''; // The initially visible content of the editor
+                    $scope.userName     = '';
+                    $scope.sockId       = '';
+                    $scope.color        = '';
+                    $scope.errorReason  = DEFAULT_ERROR_REASON;
+                    $scope.joinFailed   = false;
+                    $scope.chatMessage  = '';
 
                     // This is needed in order to show error messages properly
                     $scope.$watch('userName', function (newValue, oldValue) {
@@ -115,6 +118,8 @@ angular.module('codecollabUiApp')
 
                         $scope.$apply(function () {
                             $scope.aceInitCode = code;
+                            $scope.sockId = sockId;
+                            $scope.color = color;
                             // add presenter to the collaborators array
                             handleJoinedCollaborator(sockId, $scope.userName, color);
                         })
@@ -156,9 +161,11 @@ angular.module('codecollabUiApp')
                         var code = data.code;
 
                         $scope.$apply(function () {
-                            $scope.aceInitCode = code;
-                            $scope.aceTheme = data.aceTheme;
-                            $scope.aceMode = data.aceMode;
+                            $scope.aceInitCode  = code;
+                            $scope.aceTheme     = data.aceTheme;
+                            $scope.aceMode      = data.aceMode;
+                            $scope.sockId       = data.sockId;
+                            $scope.color        = data.color;
                             // all other collaborators
                             var collaborators = data.collaborators;
                             for (var i = 0; i < collaborators.length; i++) {
@@ -299,6 +306,12 @@ angular.module('codecollabUiApp')
                         }
                     };
 
+                    $scope.sendChatMessage = function() {
+                        var msg = $scope.chatMessage;
+                        handleNewStreamMessage($scope.userName, $scope.color, msg);
+                        $scope.chatMessage = '';
+                    };
+
                     // TODO: handle following case: if a connected presenter wants to join another session as
                     // non-presenter!
                     // handle presenter / non-presenter case
@@ -369,10 +382,20 @@ angular.module('codecollabUiApp')
                     }
                 };
 
+                var handleNewStreamMessage = function(name, color, msg) {
+                    $scope.session.stream.push(
+                        createStreamMessage(name, color, msg)
+                    );
+                };
+
                 var createCollaborator = function(sockId, name, color) {
                     return {
                         uuid: sockId, name: name, color: color
                     };
+                };
+
+                var createStreamMessage = function(name, color, msg) {
+                    return {time: new Date().getTime(), name: name, color: color, msg: msg};
                 };
 
                 /* ################################################################# */

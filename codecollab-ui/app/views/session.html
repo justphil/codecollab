@@ -28,6 +28,13 @@
             -->
             <div id="stream-panel" class="start-form-overlay" ng-show="showCollaborators">
                 <stream stream="session.stream"></stream>
+                <form id="chat-form" name="chatForm" ng-submit="sendChatMessage()" novalidate>
+                    <input type="text"
+                           id="chat-message-input"
+                           name="chatMessage"
+                           ng-model="chatMessage"
+                           placeholder="Enter a message..." required>
+                </form>
             </div>
 
             <!--

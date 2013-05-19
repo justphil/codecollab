@@ -65,6 +65,18 @@ div.start-form-overlay {
   height: 30px;
 }
 
+.start-form-overlay input#chat-message-input {
+  width: 98%;
+  margin: 0;
+}
+
+.start-form-overlay form#chat-form {
+  position: absolute;
+  bottom: 5px;
+  width: 97%;
+  margin: 0;
+}
+
 .start-form-overlay select {
   width: 88%;
   height: 40px;
@@ -105,8 +117,8 @@ div.start-form-overlay {
 .start-form-overlay li.collaborator {
   display: inline-block;
   font-size: 90%;
-  color: #e4e4e4;
-  background-color: #7a7a7a;
+  color: #cccccc;
+  background-color: #1e1e1e;
   padding: 3px;
   margin: 2px;
 }
@@ -114,4 +126,12 @@ div.start-form-overlay {
 .start-form-overlay ul.collaborator {
   margin: 0;
   padding: 0;
+}
+
+.start-form-overlay div.stream-message {
+  font-size: 90%;
+  color: #cccccc;
+  background-color: #1e1e1e;
+  padding: 3px;
+  margin: 2px;
 }
