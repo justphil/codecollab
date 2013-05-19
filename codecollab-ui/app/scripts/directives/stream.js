@@ -4,10 +4,9 @@ angular.module('codecollabUiApp')
     .directive('stream', function () {
         return {
             template: '<div class="stream-message-container"><div class="stream-message img-rounded" ng-repeat="s in stream">' +
-                        '<div class="img-rounded"' +
-                                'style="width: 8px; height: 8px; background-color: {{s.color}}; display: inline-block;"></div>' +
+                        '<div class="color-indicator img-rounded" style="background-color: {{s.color}};"></div>' +
                         ' {{s.time}} {{s.name}} {{s.msg}}' +
-                        '</div></div>',
+                      '</div></div>',
             restrict: 'E',
             scope: {
                 stream: '='
