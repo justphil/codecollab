@@ -134,6 +134,18 @@ div.start-form-overlay {
   margin: 2px;
 }
 
+.start-form-overlay div.stream-message .date {
+  font-size: 70%;
+  color: #808080;
+  opacity: 0.5;
+}
+
+.start-form-overlay div.stream-message .name {
+  color: #808080;
+  padding-right: 6px;
+  border-right: #808080 solid 1px;
+}
+
 .start-form-overlay div.stream-message div.color-indicator {
   width: 8px;
   height: 8px;
