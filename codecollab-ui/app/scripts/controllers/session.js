@@ -252,7 +252,7 @@ angular.module('codecollabUiApp')
                             session.remove(
                                 aceManager.createNewRange(data.startRow, data.startColumn, data.endRow, data.endColumn)
                             );
-                            shiftCursor(markers, session, data.sockId, data.endRow, data.endColumn);
+                            shiftCursor(markers, session, data.sockId, data.startRow, data.startColumn);
                             editor.enableChangeEvents();
                         }
                     });
