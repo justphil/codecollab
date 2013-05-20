@@ -198,3 +198,7 @@ div.start-form-overlay {
   overflow: scroll;
 }
 
+// ace cursor coloring
+div.ace_cursor.red {
+  border-left: 2px solid red;
+}

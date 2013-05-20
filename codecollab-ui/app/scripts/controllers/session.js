@@ -3,11 +3,12 @@
 angular.module('codecollabUiApp')
     .controller('SessionCtrl',
         ['$scope', '$rootScope', '$location', '$routeParams', '$window', '$http', '$modal',
-            'ccSession', 'protocolHandler', 'aceManager', 'aceData', 'VERTX_PORT',
-            function ($scope, $rootScope, $location, $routeParams, $window, $http, $modal, ccSession, protocolHandler, aceManager, aceData, VERTX_PORT) {
+            'ccSession', 'protocolHandler', 'aceManager', 'aceData', 'aceCursor', 'VERTX_PORT',
+            function ($scope, $rootScope, $location, $routeParams, $window, $http, $modal, ccSession, protocolHandler, aceManager, aceData, aceCursor, VERTX_PORT) {
                 console.log('### ### SessionCtrl invoked! ### ###');
 
                 aceManager.reset();
+                aceCursor.reset();
                 protocolHandler.reset();
 
                 // init vertx url
@@ -145,6 +146,8 @@ angular.module('codecollabUiApp')
                     protocolHandler.registerOnUserJoinedHandler(function (data) {
                         console.log("onUserJoinedHandler", data);
 
+                        aceCursor.addCursorClass(data.sockId, data.color);
+
                         $scope.$apply(function () {
                             // add collaborator to the collaborators array
                             handleJoinedCollaborator(data.sockId, data.name, data.color);
@@ -156,6 +159,8 @@ angular.module('codecollabUiApp')
 
                     protocolHandler.registerOnUserLeftHandler(function (data) {
                         console.log("onUserLeftHandler", data);
+
+                        aceCursor.removeCursorClass(data.sockId);
 
                         $scope.$apply(function () {
                             // remove collaborator from the collaborators array
@@ -185,6 +190,7 @@ angular.module('codecollabUiApp')
                                 handleJoinedCollaborator(
                                     collaborators[i].sockId, collaborators[i].name, collaborators[i].color
                                 );
+                                aceCursor.addCursorClass(collaborators[i].sockId, collaborators[i].color);
                             }
                             // myself
                             handleJoinedCollaborator(data.sockId, $scope.userName, data.color);
