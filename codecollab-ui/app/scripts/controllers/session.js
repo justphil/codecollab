@@ -371,6 +371,7 @@ angular.module('codecollabUiApp')
                     else {
                         console.log('non-presenter!');
                         $scope.isPresenter = false;
+                        $scope.aceInitCode = aceData.generateInitCode($scope.isPresenter);
                         showJoinForm();
                     }
 

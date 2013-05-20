@@ -34,33 +34,7 @@ angular.module('codecollabUiApp')
 
         $scope.allowEditing = true;
 
-        $scope.aceInitCode =    "/*\n" +
-                                " * CodeCollab is an effortless real-time code collaboration tool.\n" +
-                                " *\n" +
-                                " * In order to start a collaboration session (=\"CodeCollab\") just\n"+
-                                " * enter your name, choose a programming language, click on 'Start CodeCollab!'\n"+
-                                " * and provide your friends the generated URL.\n"+
-                                " *\n"+
-                                " * All changes to the code will be distributed among all session participants\n"+
-                                " * in real time.\n"+
-                                " *\n"+
-                                " * We currently provide syntax highlighting for the following languages:\n"+
-                                " */\n"+
-                                "\n"+
-                                "var supported = [\n";
-
-        for (var i = 0; i < $scope.supportedProgrammingLanguages.length; i++) {
-            $scope.aceInitCode += "     '" + $scope.supportedProgrammingLanguages[i] + "'";
-
-            if (i < ($scope.supportedProgrammingLanguages.length - 1)) {
-                $scope.aceInitCode += ",\n";
-            }
-            else {
-                $scope.aceInitCode += "\n";
-            }
-        }
-
-        $scope.aceInitCode += "];\n";
+        $scope.aceInitCode = aceData.generateInitCode(true);
 
         $scope.getAllowEditingText = function() {
             return ($scope.allowEditing) ? "Collaborators can make changes." : "Collaborators cannot make changes.";
