@@ -124,6 +124,9 @@ angular.module('codecollabUiApp')
                             $scope.color = color;
                             // add presenter to the collaborators array
                             handleJoinedCollaborator(sockId, $scope.userName, color);
+                            handleNewStreamMessage(
+                                'system', '#FFFFFF', $scope.userName + " has started the session!", true
+                            );
                         })
                     });
 
@@ -185,6 +188,9 @@ angular.module('codecollabUiApp')
                             }
                             // myself
                             handleJoinedCollaborator(data.sockId, $scope.userName, data.color);
+                            handleNewStreamMessage(
+                                'system', '#FFFFFF', $scope.userName + " has joined the session!", true
+                            );
                             showSessionArea();
                         });
 
