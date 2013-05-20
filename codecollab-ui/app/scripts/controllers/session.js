@@ -195,7 +195,8 @@ angular.module('codecollabUiApp')
                         });
 
                         if (data.allowEditing) {
-                            // non-presenter can now start to make changes because they have the corresponding permission
+                            // non-presenter can now start to make changes because he has permission
+                            editor.setReadOnly(false);
                             $scope.registerOnAceEditorChangeHandler();
                         }
                         else {
