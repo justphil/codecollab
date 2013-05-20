@@ -99,13 +99,6 @@ angular.module('codecollabUiApp')
 
             console.log('onNewCodeCollabStarted', res);
             $location.path('/session/' + res.uuid);
-
-            /*
-            console.log("$scope", $scope);
-            $scope.$apply(function() {
-                $location.path('/session/' + msg.uuid);
-            });
-            */
         };
 
         /* ################################################################# */
@@ -113,6 +106,7 @@ angular.module('codecollabUiApp')
         /* ################################################################# */
 
         // TODO: This is not the right place for this kind of logic!
+        // TODO: Let angular inject the window object.
 
         var resizeHeight = function() {
             var winHeight = $(window).height() - 40;
