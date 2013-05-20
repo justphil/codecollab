@@ -45,6 +45,19 @@ angular.module('codecollabUiApp')
                     editor.setValue($scope.initCode);
                     editor.navigateDown(100); // Doesn't seem to work right!
 
+                    // only for test purposes
+                    /*
+                    var Range = window.ace.require('ace/range').Range;
+                    editor.getSession().addMarker(
+                        new Range(0, 0, 3, 3), "ace_bracket", "text", true
+                    );
+                    */
+                    var annotationMessage = "More to come! As well as code annotations like this. Stay tuned!";
+                    editor.getSession().setAnnotations([{row:13, column: 0, text: annotationMessage, type:"warning"}]);
+                    //console.log('marker added');
+                    //console.log('markers:', editor.getSession().getMarkers(true));
+                    // till here
+
                     angular.element(window).resize(function() {
                         resizeHeight(editorId);
                     });
