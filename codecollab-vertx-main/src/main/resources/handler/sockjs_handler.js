@@ -9,6 +9,14 @@ var broadcast = function(sessionManager, senderSock, msg) {
     var sockId      = senderSock[CONST.SOCK_ID_KEY]();
     var sessionId   = sessionManager.getSessionId(sockId);
     var session     = sessionManager.getSession(sessionId);
+
+    // add senderSockId to msg.data
+    if (msg.data) {
+        if (!msg.data.sockId) {
+            msg.data.sockId = sockId;
+        }
+    }
+
     session.broadcast(sockId, msg);
 };
 

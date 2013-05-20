@@ -54,11 +54,12 @@ angular.module('codecollabUiApp')
                     */
                     var annotationMessage = "More to come! As well as code annotations like this. Stay tuned!";
                     session.setAnnotations([{row:13, column: 0, text: annotationMessage, type:"warning"}]);
+                    /*
                     var Range = window.ace.require('ace/range').Range;
                     session.addMarker(
                         new Range(1, 0, 1, 1), "ace_cursor red", "text", true
                     );
-                    console.log('session.documentToScreenPosition(0, 1)', session.documentToScreenPosition(0, 1));
+                    */
                     //console.log('marker added');
                     //console.log('markers:', editor.getSession().getMarkers(true));
                     // till here

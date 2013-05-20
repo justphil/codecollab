@@ -14,7 +14,7 @@ angular.module('codecollabUiApp')
         var addCursorClass = function(sockId, color) {
             cursors[sockId] = color;
 
-            var newCssClassName = 'div.ace_cursor.' + color.substring(1);
+            var newCssClassName = 'div.ace_cursor.c-' + sockId;
             var html = '<style id="cursor_'+sockId+'" type="text/css">' + newCssClassName + ' {border-left: 2px solid ' + color + ';}</style>';
             var newCssClass     = angular.element(html);
             angular.element('html > head').append(newCssClass);

@@ -48,6 +48,7 @@ angular.module('codecollabUiApp')
 
                     // init model
                     var editor = null;
+                    var markers = {}; // sockId -> markerId (string -> number)
                     aceManager.getAceInstanceByElementId('sessionEditor', function (aceInstance) {
                         editor = aceInstance;
                         ccSession.setEditor(aceInstance);
@@ -217,8 +218,10 @@ angular.module('codecollabUiApp')
                         console.log("onTextInsertedHandler", data);
 
                         if (editor !== null) {
+                            var session = editor.getSession();
                             editor.disableChangeEvents();
-                            editor.getSession().insert({row: data.startRow, column: data.startColumn}, data.text);
+                            session.insert({row: data.startRow, column: data.startColumn}, data.text);
+                            shiftCursor(markers, session, data.sockId, data.endRow, data.endColumn);
                             editor.enableChangeEvents();
                         }
                     });
@@ -231,9 +234,11 @@ angular.module('codecollabUiApp')
                                 var session = editor.getSession();
 
                                 editor.disableChangeEvents();
-                                for (var i = 0; i < lines.length; i++) {
+                                var i;
+                                for (i = 0; i < lines.length; i++) {
                                     session.insert({row: data.startRow + i, column: 0}, lines[i] + '\n');
                                 }
+                                shiftCursor(markers, session, data.sockId, data.startRow + i, 0);
                                 editor.enableChangeEvents();
                             }
                         }
@@ -243,9 +248,11 @@ angular.module('codecollabUiApp')
                         console.log("onTextRemovedHandler", data);
                         if (editor !== null) {
                             editor.disableChangeEvents();
-                            editor.getSession().remove(
+                            var session = editor.getSession();
+                            session.remove(
                                 aceManager.createNewRange(data.startRow, data.startColumn, data.endRow, data.endColumn)
                             );
+                            shiftCursor(markers, session, data.sockId, data.endRow, data.endColumn);
                             editor.enableChangeEvents();
                         }
                     });
@@ -254,9 +261,11 @@ angular.module('codecollabUiApp')
                         console.log("onLinesRemovedHandler", data);
                         if (editor !== null) {
                             editor.disableChangeEvents();
-                            editor.getSession().remove(
+                            var session = editor.getSession();
+                            session.remove(
                                 aceManager.createNewRange(data.startRow, 0, data.endRow, 0)
                             );
+                            shiftCursor(markers, session, data.sockId, data.startRow, 0);
                             editor.enableChangeEvents();
                         }
                     });
@@ -436,6 +445,16 @@ angular.module('codecollabUiApp')
                     }
 
                     return collaborator;
+                };
+
+                var shiftCursor = function(markers, session, sockId, endRow, endColumn) {
+                    if (markers.hasOwnProperty(sockId)) {
+                        session.removeMarker(markers[sockId]);
+                    }
+                    markers[sockId] = session.addMarker(
+                        aceManager.createNewRange(endRow, endColumn, endRow, endColumn + 1),
+                        "ace_cursor c-" + sockId, "text", true
+                    );
                 };
 
                 var handleNewStreamMessage = function(name, color, msg, system) {
