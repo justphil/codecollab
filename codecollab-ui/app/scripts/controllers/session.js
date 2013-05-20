@@ -147,7 +147,7 @@ angular.module('codecollabUiApp')
                     protocolHandler.registerOnUserJoinedHandler(function (data) {
                         console.log("onUserJoinedHandler", data);
 
-                        aceCursor.addCursorClass(data.sockId, data.color);
+                        aceCursor.addCursorClass(data.name, data.sockId, data.color);
 
                         $scope.$apply(function () {
                             // add collaborator to the collaborators array
@@ -191,7 +191,7 @@ angular.module('codecollabUiApp')
                                 handleJoinedCollaborator(
                                     collaborators[i].sockId, collaborators[i].name, collaborators[i].color
                                 );
-                                aceCursor.addCursorClass(collaborators[i].sockId, collaborators[i].color);
+                                aceCursor.addCursorClass(collaborators[i].name, collaborators[i].sockId, collaborators[i].color);
                             }
                             // myself
                             handleJoinedCollaborator(data.sockId, $scope.userName, data.color);

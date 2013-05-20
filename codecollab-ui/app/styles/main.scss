@@ -202,3 +202,19 @@ div.start-form-overlay {
 div.ace_cursor.red {
   border-left: 2px solid red;
 }
+
+div.ace_cursor.red:after {
+  background: #FFFFFF;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  bottom: -2px;
+  color: rgba(0, 0, 0, 0.6);
+  content: 'TEST';
+  left: 5px;
+  position: absolute;
+  z-index: 98;
+  font-size: 7pt;
+  margin: 0;
+  padding: 4px;
+}
+
