@@ -73,6 +73,7 @@ angular.module('codecollabUiApp')
             $rootScope.codecollabSession.allowEditing   = $scope.allowEditing;
             $rootScope.codecollabSession.aceMode        = aceModeMap[$scope.aceMode];
             $rootScope.codecollabSession.aceTheme       = $scope.aceTheme;
+            $rootScope.codecollabSession.uuid           = res.uuid;
 
             console.log('onNewCodeCollabStarted', res);
             $location.path('/session/' + res.uuid);

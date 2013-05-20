@@ -99,6 +99,16 @@ angular.module('codecollabUiApp')
                         console.log('aceMode in rootScope NOT available');
                     }
 
+                    if (angular.isDefined($rootScope.codecollabSession)
+                        && angular.isDefined($rootScope.codecollabSession.uuid)) {
+                        $scope.uuid = $rootScope.codecollabSession.uuid;
+                        console.log('uuid in rootScope available');
+                    }
+                    else {
+                        $scope.uuid = $routeParams.uuid;
+                        console.log('uuid in rootScope NOT available');
+                    }
+
 
                     // init protocol handler
                     protocolHandler.registerOnJoinedHandler(function (data) {
@@ -339,10 +349,9 @@ angular.module('codecollabUiApp')
                         $scope.chatMessage = '';
                     };
 
-                    // TODO: handle following case: if a connected presenter wants to join another session as
-                    // non-presenter!
                     // handle presenter / non-presenter case
-                    if ($rootScope.codecollabSession && $rootScope.codecollabSession.isPresenter) {
+                    if ($rootScope.codecollabSession    && $rootScope.codecollabSession.isPresenter
+                                                        && $scope.uuid === $routeParams.uuid) {
                         console.log('presenter!');
                         /*
                          console.log('codecollabSession.isPresenter',    $rootScope.codecollabSession.isPresenter);
@@ -371,6 +380,7 @@ angular.module('codecollabUiApp')
                     else {
                         console.log('non-presenter!');
                         $scope.isPresenter = false;
+                        $scope.uuid = $routeParams.uuid;
                         $scope.aceInitCode = aceData.generateInitCode($scope.isPresenter);
                         showJoinForm();
                     }
