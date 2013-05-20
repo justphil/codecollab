@@ -32,11 +32,11 @@ angular.module('codecollabUiApp')
                     if (newValue !== oldValue) {
                         // TODO: window should be injected by angular instead of using it directly
                         window.setTimeout(function() {
-                            console.log('stream array has changed to: ' + newValue);
+                            //console.log('stream array has changed to: ' + newValue);
                             var streamMessageContainer = angular.element('.stream-message-container', $element)[0];
                             var height = streamMessageContainer.scrollHeight;
                             var lastChildHeight = angular.element('.stream-message:last-child', $element).height();
-                            console.log('last-child height: ' + lastChildHeight);
+                            //console.log('last-child height: ' + lastChildHeight);
                             angular.element(streamMessageContainer).scrollTop(height + lastChildHeight);
                         }, 10);
                     }
