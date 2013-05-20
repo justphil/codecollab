@@ -31,6 +31,7 @@ angular.module('codecollabUiApp')
                 }, function(newValue, oldValue) {
                     if (newValue !== oldValue) {
                         // TODO: window should be injected by angular instead of using it directly
+                        // async autoscroll
                         window.setTimeout(function() {
                             //console.log('stream array has changed to: ' + newValue);
                             var streamMessageContainer = angular.element('.stream-message-container', $element)[0];
