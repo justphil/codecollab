@@ -2,9 +2,12 @@
 
 angular.module('codecollabUiApp')
     .controller('MainCtrl',
-            ['$scope', '$rootScope', '$location', '$http', '$window', 'aceData',
-    function ($scope, $rootScope, $location, $http, $window, aceData) {
+            ['$scope', '$rootScope', '$location', '$http', '$window', 'aceData', 'ccSession',
+    function ($scope, $rootScope, $location, $http, $window, aceData, ccSession) {
         console.log('### ### MainCtrl invoked! ### ###');
+
+        // close connection to the server if there is an open connection
+        ccSession.close();
 
         var aceModeMap = aceData.getSupportedAceModes();
 
