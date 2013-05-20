@@ -24,7 +24,7 @@ angular.module('codecollabUiApp')
             isPresenter     : false,
             userName        : '',
             allowEditing    : false,
-            aceMode         : $scope.supportedProgrammingLanguages[0]
+            aceMode         : aceModeMap[$scope.supportedProgrammingLanguages[0]]
         };
 
         // init model
