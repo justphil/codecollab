@@ -161,6 +161,7 @@ angular.module('codecollabUiApp')
                     protocolHandler.registerOnUserLeftHandler(function (data) {
                         console.log("onUserLeftHandler", data);
 
+                        removeCursor(markers, editor.getSession(), data.sockId);
                         aceCursor.removeCursorClass(data.sockId);
 
                         $scope.$apply(function () {
@@ -447,10 +448,14 @@ angular.module('codecollabUiApp')
                     return collaborator;
                 };
 
-                var shiftCursor = function(markers, session, sockId, endRow, endColumn) {
+                var removeCursor = function(markers, session, sockId) {
                     if (markers.hasOwnProperty(sockId)) {
                         session.removeMarker(markers[sockId]);
                     }
+                };
+
+                var shiftCursor = function(markers, session, sockId, endRow, endColumn) {
+                    removeCursor(markers, session, sockId);
                     markers[sockId] = session.addMarker(
                         aceManager.createNewRange(endRow, endColumn, endRow, endColumn + 1),
                         "ace_cursor c-" + sockId, "text", true
