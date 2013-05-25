@@ -14,6 +14,7 @@ angular.module('codecollabUiApp')
         var onOverHandler;
         var onStreamMessageHandler;
         var onChangeCursorHandler;
+        var onChangeSelectionHandler;
 
         var reset = function() {
             onJoinedHandler         = [];
@@ -28,6 +29,7 @@ angular.module('codecollabUiApp')
             onOverHandler           = [];
             onStreamMessageHandler  = [];
             onChangeCursorHandler   = [];
+            onChangeSelectionHandler= [];
         };
 
         reset();
@@ -86,6 +88,10 @@ angular.module('codecollabUiApp')
 
         var onChangeCursor = function(data) {
             distributeMessage(data, onChangeCursorHandler);
+        };
+
+        var onChangeSelection = function(data) {
+            distributeMessage(data, onChangeSelectionHandler);
         };
 
         // Public API here
@@ -176,6 +182,13 @@ angular.module('codecollabUiApp')
             },
             registerOnChangeCursorHandler: function(handler) {
                 onChangeCursorHandler.push(handler);
+            },
+
+            onChangeSelection: function(data) {
+                onChangeSelection(data);
+            },
+            registerOnChangeSelectionHandler: function(handler) {
+                onChangeSelectionHandler.push(handler);
             }
         };
     });

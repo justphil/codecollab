@@ -296,6 +296,15 @@ angular.module('codecollabUiApp')
                         shiftCursor(markers, session, data.sockId, data.row, data.column);
                     });
 
+                    protocolHandler.registerOnChangeSelectionHandler(function (data) {
+                        console.log("onChangeSelectionHandler", data);
+
+                        /*
+                        var session = editor.getSession();
+                        shiftCursor(markers, session, data.sockId, data.row, data.column);
+                        */
+                    });
+
                     /* ################################################################################################## */
                     /* ################################################################################################## */
                     /* ################################################################################################## */

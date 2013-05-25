@@ -81,6 +81,9 @@ angular.module('codecollabUiApp')
                 else if (msg.type === "changeCursor") {
                     protocolHandler.onChangeCursor(msg.data);
                 }
+                else if (msg.type === "changeSelection") {
+                    protocolHandler.onChangeSelection(msg.data);
+                }
                 else {
                     console.log('Unknown SockJS message:', msg);
                 }
