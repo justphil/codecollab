@@ -69,7 +69,7 @@ module.exports = function(sessionManager) {
             }
             else {
                 var isPresenter = session.getCollaboratorSize() === 0; // The first collaborator that joins is the presenter.
-                var color       = Color.generateColor();
+                var color       = Color.generateColor(session.getCollaboratorSize());
                 var collaborator= new Collaborator(name, sock, isPresenter, color);
                 var sockId      = sock[CONST.SOCK_ID_KEY]();
                 session.addCollaborator(sockId, collaborator);
