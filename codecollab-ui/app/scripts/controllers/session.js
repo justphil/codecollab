@@ -456,6 +456,11 @@ angular.module('codecollabUiApp')
                             show: true,
                             backdrop: 'static'
                         });
+
+                        // automatically select the url in the input field
+                        $window.setTimeout(function() {
+                            angular.element('div.modal-body input.codecollabUrl').select();
+                        }, 500);
                     }
                     else {
                         console.log('non-presenter!');
