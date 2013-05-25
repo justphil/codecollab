@@ -5,7 +5,8 @@
              mode="{{aceMode}}"
              init-code="aceInitCode"
              on-change="onAceEditorChange(action, text, lines, startRow, startColumn, endRow, endColumn)"
-             on-change-cursor="onAceEditorChangeCursor(action, row, column)">
+             on-change-cursor="onAceEditorChangeCursor(action, row, column)"
+             on-change-selection="onAceEditorChangeSelection(action, startRow, startColumn, endRow, endColumn)">
         </ace>
     </div>
     <div id="right">

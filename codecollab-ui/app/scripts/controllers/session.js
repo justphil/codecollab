@@ -343,6 +343,23 @@ angular.module('codecollabUiApp')
 
                             ccSession.send(msg);
                         };
+
+                        // register onChangeSelection listener
+                        $scope.onAceEditorChangeSelection = function (action, startRow, startColumn, endRow, endColumn) {
+                            console.log('### ### onAceEditorChangeSelection:', action, startRow, startColumn, endRow, endColumn);
+
+                            var msg = JSON.stringify({
+                                type: action,
+                                data: {
+                                    startRow:       startRow,
+                                    startColumn:    startColumn,
+                                    endRow:         endRow,
+                                    endColumn:      endColumn
+                                }
+                            });
+
+                            ccSession.send(msg);
+                        };
                     };
 
                     $scope.joinCodeCollab = function () {

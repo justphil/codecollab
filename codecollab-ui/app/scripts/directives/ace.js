@@ -11,7 +11,8 @@ angular.module('codecollabUiApp')
                 theme:              '@',
                 mode:               '@',
                 onChange:           '&',
-                onChangeCursor:     '&'
+                onChangeCursor:     '&',
+                onChangeSelection:  '&'
             },
             controller: ['$scope', 'aceManager', function($scope, aceManager) {
                 $scope.registerAceInstance = function (elementId, aceInstance) {
@@ -111,6 +112,17 @@ angular.module('codecollabUiApp')
                             var newPos = session.selection.getCursor();
                             $scope.onChangeCursor({
                                 action: e.type, row: newPos.row, column: newPos.column
+                            });
+                        }
+                    });
+
+                    session.selection.on('changeSelection', function(e) {
+                        if ($scope.onChangeSelection) {
+                            var range = session.selection.getRange();
+                            $scope.onChangeSelection({
+                                action: e.type,
+                                startRow: range.start.row, startColumn: range.start.column,
+                                endRow: range.end.row, endColumn: range.end.column
                             });
                         }
                     });
