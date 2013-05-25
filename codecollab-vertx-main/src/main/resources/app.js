@@ -12,7 +12,7 @@ var CODE_COLLAB_SERVER = CODE_COLLAB_SERVER || {};
     "use strict";
 
     var Logger = require('util/logger.js');
-    var LOG = new Logger('app.js');
+    var LOG = new Logger('server.js');
 
     // check if undefined is really undefined, if not fail fast
     if (undefined) {
