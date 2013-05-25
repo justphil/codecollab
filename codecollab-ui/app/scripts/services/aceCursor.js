@@ -54,7 +54,7 @@ angular.module('codecollabUiApp')
 
             var newCssClassName = 'div.ace_selection.s-' + sockId;
             var html = '<style id="selection_'+sockId+'" type="text/css">'
-                + newCssClassName + ' {background-color: ' + color + '; opacity: 0.5;}'
+                + newCssClassName + ' {background-color: ' + color + ' !important; opacity: 0.5;}'
                 + '</style>';
             var newCssClass     = angular.element(html);
             angular.element('html > head').append(newCssClass);
