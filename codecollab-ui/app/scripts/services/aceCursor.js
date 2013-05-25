@@ -3,9 +3,11 @@
 angular.module('codecollabUiApp')
     .factory('aceCursor', function () {
         var cursors; // sockId -> color (string -> string)
+        var selections; // sockId -> color (string -> string)
 
         var reset = function() {
             cursors = {};
+            selections = {};
         };
 
         reset();
@@ -43,16 +45,46 @@ angular.module('codecollabUiApp')
             }
         };
 
+        /* ######################################################################################### */
+        /* ######################################################################################### */
+        /* ######################################################################################### */
+
+        var addSelectionClass = function(sockId, color) {
+            selections[sockId] = color;
+
+            var newCssClassName = 'div.ace_selection.s-' + sockId;
+            var html = '<style id="selection_'+sockId+'" type="text/css">'
+                + newCssClassName + ' {background-color: ' + color + '; opacity: 0.5;}'
+                + '</style>';
+            var newCssClass     = angular.element(html);
+            angular.element('html > head').append(newCssClass);
+        };
+
+        var removeSelectionClass = function(sockId) {
+            if (selections.hasOwnProperty(sockId)) {
+                delete selections[sockId];
+                angular.element('#selection_' + sockId).remove();
+            }
+        };
+
         // Public API here
         return {
             reset: function () {
                 reset();
             },
+
             addCursorClass: function(name, sockId, color) {
                 addCursorClass(name, sockId, color);
             },
             removeCursorClass: function(sockId) {
                 removeCursorClass(sockId);
+            },
+
+            addSelectionClass: function(sockId, color) {
+                addSelectionClass(sockId, color);
+            },
+            removeSelectionClass: function(sockId) {
+                removeSelectionClass(sockId);
             }
         };
     });
