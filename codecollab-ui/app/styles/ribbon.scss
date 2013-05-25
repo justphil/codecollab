@@ -18,9 +18,12 @@
   background: #C4473A;
 }
 
+.ribbonize.angularjs-de a {
+  background: #c41b14;
+}
+
 .ribbonize a:hover {
-  background: #f06c63;
-  color: #fff;
+  opacity: 0.6;
 }
 
 .ribbonize a::before, .ribbonize a::after {
