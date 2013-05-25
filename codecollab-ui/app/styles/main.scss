@@ -73,6 +73,11 @@ div.start-form-overlay {
   height: 30px;
 }
 
+.start-form-overlay input[type="submit"].btn.btn-large {
+  width: auto;
+  height: auto;
+}
+
 .start-form-overlay input#chat-message-input {
   width: 100%;
   margin: 0;

@@ -51,12 +51,18 @@
             <div class="start-form-overlay align-center" ng-show="showJoinForm">
                 <h1>Join a collaboration session!</h1>
 
-                <form name="joinCodeCollabForm" novalidate>
+                <form name="joinCodeCollabForm" ng-submit="joinCodeCollab()" novalidate>
                     <input type="text" name="userName" ng-model="userName" placeholder="Your Name..." required>
                     <div class="submit-area">
+                        <input type="submit"
+                               id="joinCodeCollabButton"
+                               class="btn btn-large btn-primary"
+                               value="Join CodeCollab!" />
+                        <!--
                         <button class="btn btn-large btn-primary"
                                 type="button"
                                 ng-click="joinCodeCollab()">Join CodeCollab!</button>
+                        -->
                     </div>
                     <div class="error-area"
                          ng-show="joinCodeCollabForm.userName.$dirty && joinCodeCollabForm.userName.$invalid">
