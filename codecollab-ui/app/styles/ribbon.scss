@@ -1,0 +1,63 @@
+.ribbonize a {
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  padding: 0 30px;
+  font-size: 66%;
+  line-height: 26px;
+  position: relative;
+  transition: 0.5s;
+  z-index: 100;
+}
+
+.ribbonize.vert-x a {
+  background: #5377c4;
+}
+
+.ribbonize.angularjs a {
+  background: #C4473A;
+}
+
+.ribbonize a:hover {
+  background: #f06c63;
+  color: #fff;
+}
+
+.ribbonize a::before, .ribbonize a::after {
+  content: "";
+  width: 100%;
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: 0;
+  height: 1px;
+  background: #fff;
+}
+
+.ribbonize a::after {
+  bottom: 1px;
+  top: auto;
+}
+
+@media screen and (min-width:100px) {
+  .ribbonize {
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
+    width: 200px;
+    overflow: hidden;
+    height: 200px;
+  }
+
+  .ribbonize a {
+    width: 200px;
+    position: absolute;
+    top: 24px;
+    right: -93px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    box-shadow:4px 4px 10px rgba(255,255,255,0.5);
+  }
+}
+

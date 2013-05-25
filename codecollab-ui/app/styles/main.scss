@@ -1,7 +1,9 @@
 @import "compass_twitter_bootstrap";
+@import "ribbon";
 
 header nav.navbar-inner {
   border-bottom: #777777 solid 1px;
+  padding-right: 94px;
 }
 
 .beta-text {
@@ -206,7 +208,7 @@ div.start-form-overlay {
 
 // ace cursor/selection coloring test
 div.ace_cursor.red {
-  border-left: 2px solid red;
+  border-left: 2px solid #c4473a;
 }
 
 div.ace_selection.red {
