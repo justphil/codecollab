@@ -49,6 +49,7 @@ angular.module('codecollabUiApp')
                     // init model
                     var editor = null;
                     var markers = {}; // sockId -> markerId (string -> number)
+                    var selections = {}; // sockId -> markerId (string -> number) ... selection is also a marker
                     aceManager.getAceInstanceByElementId('sessionEditor', function (aceInstance) {
                         editor = aceInstance;
                         ccSession.setEditor(aceInstance);
@@ -302,10 +303,11 @@ angular.module('codecollabUiApp')
                     protocolHandler.registerOnChangeSelectionHandler(function (data) {
                         console.log("onChangeSelectionHandler", data);
 
-                        /*
                         var session = editor.getSession();
-                        shiftCursor(markers, session, data.sockId, data.row, data.column);
-                        */
+                        shiftSelection(
+                            selections, session, data.sockId,
+                            data.startRow, data.startColumn, data.endRow, data.endColumn
+                        );
                     });
 
                     /* ################################################################################################## */
@@ -509,6 +511,20 @@ angular.module('codecollabUiApp')
                     markers[sockId] = session.addMarker(
                         aceManager.createNewRange(endRow, endColumn, endRow, endColumn + 1),
                         "ace_cursor c-" + sockId, "text", true
+                    );
+                };
+
+                var removeSelection = function(selections, session, sockId) {
+                    if (selections.hasOwnProperty(sockId)) {
+                        session.removeMarker(selections[sockId]);
+                    }
+                };
+
+                var shiftSelection = function(selections, session, sockId, startRow, startColumn, endRow, endColumn) {
+                    removeSelection(selections, session, sockId);
+                    selections[sockId] = session.addMarker(
+                        aceManager.createNewRange(startRow, startColumn, endRow, endColumn),
+                        "ace_selection s-" + sockId, "text", true
                     );
                 };
 
