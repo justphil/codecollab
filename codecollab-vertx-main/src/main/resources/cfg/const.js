@@ -16,6 +16,7 @@ module.exports = {
         MSG_TYPE_INSERT_LINES   : 'insertLines',
         MSG_TYPE_REMOVE_TEXT    : 'removeText',
         MSG_TYPE_REMOVE_LINES   : 'removeLines',
-        MSG_TYPE_CHANGE_CURSOR  : 'changeCursor'
+        MSG_TYPE_CHANGE_CURSOR  : 'changeCursor',
+        MSG_TYPE_CHANGE_SELECTION  : 'changeSelection'
     }
 };

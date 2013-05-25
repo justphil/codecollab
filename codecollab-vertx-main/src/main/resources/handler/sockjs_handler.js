@@ -157,7 +157,8 @@ module.exports = function(sessionManager) {
                     || msg.type === CONST.PROTOCOL.MSG_TYPE_REMOVE_TEXT
                     || msg.type === CONST.PROTOCOL.MSG_TYPE_REMOVE_LINES
                     || msg.type === CONST.PROTOCOL.MSG_TYPE_STREAM_MESSAGE
-                    || msg.type === CONST.PROTOCOL.MSG_TYPE_CHANGE_CURSOR) {
+                    || msg.type === CONST.PROTOCOL.MSG_TYPE_CHANGE_CURSOR
+                    || msg.type === CONST.PROTOCOL.MSG_TYPE_CHANGE_SELECTION) {
             broadcast(sessionManager, sock, msg);
         }
     };
