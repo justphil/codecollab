@@ -11,7 +11,7 @@
             <div class="start-form-overlay align-center">
                 <h1>Start a collaboration session!</h1>
 
-                <form name="startCodeCollabForm" ng-click="startNewCodeCollab()" novalidate>
+                <form name="startCodeCollabForm" ng-submit="startNewCodeCollab()" novalidate>
                     <input type="text" name="userName" ng-model="userName" placeholder="Your Name..." required>
                     <select ng-model="aceMode" ng-options="lang for lang in supportedProgrammingLanguages">
                     </select>
