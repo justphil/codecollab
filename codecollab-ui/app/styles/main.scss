@@ -198,9 +198,14 @@ div.start-form-overlay {
   overflow: scroll;
 }
 
-// ace cursor coloring
+// ace cursor/selection coloring test
 div.ace_cursor.red {
   border-left: 2px solid red;
+}
+
+div.ace_selection.red {
+  background-color: red;
+  opacity: 0.5;
 }
 
 div.ace_cursor.red:after {
