@@ -66,6 +66,7 @@ angular.module('codecollabUiApp')
                     $scope.color        = '';
                     $scope.errorReason  = DEFAULT_ERROR_REASON;
                     $scope.joinFailed   = false;
+                    $scope.joined       = false;
                     $scope.chatMessage  = '';
 
                     // This is needed in order to show error messages properly
@@ -122,15 +123,16 @@ angular.module('codecollabUiApp')
                         code = code.replace('#JOIN_URL#', $window.location.href);
 
                         $scope.$apply(function () {
-                            $scope.aceInitCode = code;
-                            $scope.sockId = sockId;
-                            $scope.color = color;
+                            $scope.joined       = true;
+                            $scope.aceInitCode  = code;
+                            $scope.sockId       = sockId;
+                            $scope.color        = color;
                             // add presenter to the collaborators array
                             handleJoinedCollaborator(sockId, $scope.userName, color);
                             handleNewStreamMessage(
                                 'system', '#FFFFFF', $scope.userName + " has started the session!", true
                             );
-                        })
+                        });
                     });
 
                     protocolHandler.registerOnJoinFailedHandler(function (data) {
@@ -184,6 +186,7 @@ angular.module('codecollabUiApp')
                         var code = data.code;
 
                         $scope.$apply(function () {
+                            $scope.joined       = true;
                             $scope.aceInitCode  = code;
                             $scope.aceTheme     = data.aceTheme;
                             $scope.aceMode      = data.aceMode;
@@ -347,32 +350,34 @@ angular.module('codecollabUiApp')
 
                         // register onChangeCursor listener
                         $scope.onAceEditorChangeCursor = function (action, row, column) {
-                            var msg = JSON.stringify({
-                                type: action,
-                                data: {
-                                    row:    row,
-                                    column: column
-                                }
-                            });
+                            if ($scope.joined) {
+                                var msg = JSON.stringify({
+                                    type: action,
+                                    data: {
+                                        row:    row,
+                                        column: column
+                                    }
+                                });
 
-                            ccSession.send(msg);
+                                ccSession.send(msg);
+                            }
                         };
 
                         // register onChangeSelection listener
                         $scope.onAceEditorChangeSelection = function (action, startRow, startColumn, endRow, endColumn) {
-                            console.log('### ### onAceEditorChangeSelection:', action, startRow, startColumn, endRow, endColumn);
+                            if ($scope.joined) {
+                                var msg = JSON.stringify({
+                                    type: action,
+                                    data: {
+                                        startRow:       startRow,
+                                        startColumn:    startColumn,
+                                        endRow:         endRow,
+                                        endColumn:      endColumn
+                                    }
+                                });
 
-                            var msg = JSON.stringify({
-                                type: action,
-                                data: {
-                                    startRow:       startRow,
-                                    startColumn:    startColumn,
-                                    endRow:         endRow,
-                                    endColumn:      endColumn
-                                }
-                            });
-
-                            ccSession.send(msg);
+                                ccSession.send(msg);
+                            }
                         };
                     };
 
