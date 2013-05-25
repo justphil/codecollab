@@ -10,7 +10,8 @@ angular.module('codecollabUiApp')
                 editorId:           '@',
                 theme:              '@',
                 mode:               '@',
-                onChange:           '&'
+                onChange:           '&',
+                onChangeCursor:     '&'
             },
             controller: ['$scope', 'aceManager', function($scope, aceManager) {
                 $scope.registerAceInstance = function (elementId, aceInstance) {
@@ -101,6 +102,15 @@ angular.module('codecollabUiApp')
                             $scope.onChange({
                                 action: action, text: text, lines: lines, startRow: start.row, startColumn: start.column,
                                 endRow: end.row, endColumn: end.column
+                            });
+                        }
+                    });
+
+                    session.selection.on('changeCursor', function(e) {
+                        if ($scope.onChangeCursor) {
+                            var newPos = session.selection.getCursor();
+                            $scope.onChangeCursor({
+                                action: e.type, row: newPos.row, column: newPos.column
                             });
                         }
                     });

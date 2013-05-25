@@ -78,6 +78,9 @@ angular.module('codecollabUiApp')
                 else if (msg.type === "stream_message") {
                     protocolHandler.onStreamMessage(msg.data);
                 }
+                else if (msg.type === "changeCursor") {
+                    protocolHandler.onChangeCursor(msg.data);
+                }
                 else {
                     console.log('Unknown SockJS message:', msg);
                 }

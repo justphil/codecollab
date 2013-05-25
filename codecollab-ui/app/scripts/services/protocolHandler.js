@@ -13,6 +13,7 @@ angular.module('codecollabUiApp')
         var onCodeSnapshotHandler;
         var onOverHandler;
         var onStreamMessageHandler;
+        var onChangeCursorHandler;
 
         var reset = function() {
             onJoinedHandler         = [];
@@ -26,6 +27,7 @@ angular.module('codecollabUiApp')
             onCodeSnapshotHandler   = [];
             onOverHandler           = [];
             onStreamMessageHandler  = [];
+            onChangeCursorHandler   = [];
         };
 
         reset();
@@ -80,6 +82,10 @@ angular.module('codecollabUiApp')
 
         var onStreamMessage = function(data) {
             distributeMessage(data, onStreamMessageHandler);
+        };
+
+        var onChangeCursor = function(data) {
+            distributeMessage(data, onChangeCursorHandler);
         };
 
         // Public API here
@@ -163,6 +169,13 @@ angular.module('codecollabUiApp')
             },
             registerOnStreamMessageHandler: function(handler) {
                 onStreamMessageHandler.push(handler);
+            },
+
+            onChangeCursor: function(data) {
+                onChangeCursor(data);
+            },
+            registerOnChangeCursorHandler: function(handler) {
+                onChangeCursorHandler.push(handler);
             }
         };
     });

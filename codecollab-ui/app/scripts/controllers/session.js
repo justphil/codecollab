@@ -289,11 +289,19 @@ angular.module('codecollabUiApp')
                         });
                     });
 
+                    protocolHandler.registerOnChangeCursorHandler(function (data) {
+                        console.log("onChangeCursorHandler", data);
+
+                        var session = editor.getSession();
+                        shiftCursor(markers, session, data.sockId, data.row, data.column);
+                    });
+
                     /* ################################################################################################## */
                     /* ################################################################################################## */
                     /* ################################################################################################## */
 
                     $scope.registerOnAceEditorChangeHandler = function () {
+                        // register onChange listener
                         $scope.onAceEditorChange = function (action, text, lines, startRow, startColumn, endRow, endColumn) {
                             var msg;
 
@@ -319,6 +327,19 @@ angular.module('codecollabUiApp')
                                     }
                                 });
                             }
+
+                            ccSession.send(msg);
+                        };
+
+                        // register onChangeCursor listener
+                        $scope.onAceEditorChangeCursor = function (action, row, column) {
+                            var msg = JSON.stringify({
+                                type: action,
+                                data: {
+                                    row:    row,
+                                    column: column
+                                }
+                            });
 
                             ccSession.send(msg);
                         };
