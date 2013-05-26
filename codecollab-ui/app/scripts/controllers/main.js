@@ -2,8 +2,8 @@
 
 angular.module('codecollabUiApp')
     .controller('MainCtrl',
-            ['$scope', '$rootScope', '$location', '$http', '$window', 'aceData', 'ccSession',
-    function ($scope, $rootScope, $location, $http, $window, aceData, ccSession) {
+            ['$scope', '$rootScope', '$location', '$http', '$window', 'aceData', 'ccSession', 'VERTX_PORT',
+    function ($scope, $rootScope, $location, $http, $window, aceData, ccSession, VERTX_PORT) {
         console.log('### ### MainCtrl invoked! ### ###');
 
         // close connection to the server if there is an open connection
@@ -57,8 +57,16 @@ angular.module('codecollabUiApp')
                     aceMode:        aceModeMap[$scope.aceMode]
                 };
 
+                // init vertx url
+                var vertxPort;
+                if (angular.isUndefined(VERTX_PORT) || VERTX_PORT === '') {
+                    vertxPort = '';
+                }
+                else {
+                    vertxPort = ':' + VERTX_PORT;
+                }
                 // TODO: Handle erroneous response
-                $http.post('http://' + $window.location.hostname + ':8080/session', data)
+                $http.post('http://' + $window.location.hostname + vertxPort + '/session', data)
                         .success(onNewCodeCollabStarted);
             }
             else {
