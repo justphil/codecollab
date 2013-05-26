@@ -1,5 +1,5 @@
 {
     "main": "server.js",
-    "deploys": "io.vertx~lang-rhino~2.0.0-beta1"
+    "deploys": "io.vertx~lang-rhino~2.0.0-beta2"
     //"includes": "io.vertx~mod-web-server~2.0.0-SNAPSHOT"
 }
