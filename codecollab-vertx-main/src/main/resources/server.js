@@ -1,4 +1,4 @@
-//var container   = require('container');
+var container   = require('container');
 //var console     = require('console');
 var vertx       = require('vertx');
 
@@ -57,6 +57,10 @@ var CODE_COLLAB_SERVER = CODE_COLLAB_SERVER || {};
     });
 
     // bind http server to the specified port and start listening for requests
-    S.httpServer.listen(CONST.DEFAULT_PORT);
-    LOG.i('CodeCollab server is up and running!');
+    var port = CONST.DEFAULT_PORT;
+    if (container.env.hasOwnProperty('PORT')) {
+        port = container.env.PORT;
+    }
+    S.httpServer.listen(port);
+    LOG.i('CodeCollab server is up and running on port ' + port + '!');
 })(CODE_COLLAB_SERVER);
