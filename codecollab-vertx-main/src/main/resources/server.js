@@ -1,4 +1,4 @@
-var container   = require('container');
+var container   = require('vertx/container');
 //var console     = require('console');
 var vertx       = require('vertx');
 
@@ -58,7 +58,7 @@ var CODE_COLLAB_SERVER = CODE_COLLAB_SERVER || {};
 
     // bind http server to the specified port and start listening for requests
     var port = CONST.DEFAULT_PORT;
-    if (container.env.hasOwnProperty('PORT')) {
+    if (container.env.PORT) {
         port = container.env.PORT;
     }
     S.httpServer.listen(port);

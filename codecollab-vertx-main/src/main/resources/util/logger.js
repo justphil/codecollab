@@ -1,4 +1,4 @@
-var console = require('console');
+var console = require('vertx/console');
 
 module.exports = function(id) {
     var LOG_ID = id;
